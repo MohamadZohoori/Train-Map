@@ -28,11 +28,21 @@ function MapController() {
   const filteredStations = useStationsStore((state) => state.filteredStations);
   const selectedCity = useStationsStore((state) => state.selectedCity);
 
+  // Invalidate map size on mount and when needed
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      map.invalidateSize();
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [map]);
+
   // Zoom to specific station when selected
   useEffect(() => {
     if (selectedStationId) {
       const station = filteredStations.find((s) => s.id === selectedStationId);
       if (station) {
+        // Invalidate size before flying to ensure accurate centering
+        map.invalidateSize();
         map.flyTo([station.lat, station.lng], 13, {
           duration: 1.5,
         });
@@ -43,6 +53,9 @@ function MapController() {
   // Fit bounds to show all filtered stations when city filter changes
   useEffect(() => {
     if (!selectedStationId && filteredStations.length > 0) {
+      // Invalidate size before fitting bounds
+      map.invalidateSize();
+      
       // Create bounds from all filtered stations
       const bounds = L.latLngBounds(
         filteredStations.map(station => [station.lat, station.lng] as [number, number])
@@ -50,7 +63,7 @@ function MapController() {
       
       // Fit map to show all filtered stations
       map.fitBounds(bounds, {
-        padding: [50, 50],
+        padding: [80, 80],
         maxZoom: 12,
         duration: 1.5,
       });
