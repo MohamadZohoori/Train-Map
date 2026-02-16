@@ -1,6 +1,8 @@
 # Train Map
 
-A modern web application for visualizing train stations on an interactive map with filtering capabilities.
+A modern web application for visualizing train stations on an interactive map with filtering capabilities, deployed at:
+
+https://train-map-eight.vercel.app/
 
 ## Features
 
@@ -115,6 +117,3 @@ Configuration files:
 
 This project is open source and available under the MIT License.
 
-## Roadmap
-
-See [ROADMAP.md](ROADMAP.md) for planned features and improvements.
